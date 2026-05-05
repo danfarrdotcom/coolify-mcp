@@ -1,9 +1,9 @@
 # coolify-mcp
 
-[![npm version](https://img.shields.io/npm/v/coolify-mcp.svg)](https://www.npmjs.com/package/coolify-mcp)
-[![npm downloads](https://img.shields.io/npm/dm/coolify-mcp.svg)](https://www.npmjs.com/package/coolify-mcp)
+[![npm version](https://img.shields.io/npm/v/%40danfarrdotcom%2Fcoolify-mcp.svg)](https://www.npmjs.com/package/@danfarrdotcom/coolify-mcp)
+[![npm downloads](https://img.shields.io/npm/dm/%40danfarrdotcom%2Fcoolify-mcp.svg)](https://www.npmjs.com/package/@danfarrdotcom/coolify-mcp)
 [![GitHub release](https://img.shields.io/github/v/release/danfarrdotcom/coolify-mcp?label=release)](https://github.com/danfarrdotcom/coolify-mcp/releases)
-[![License](https://img.shields.io/npm/l/coolify-mcp.svg)](https://github.com/danfarrdotcom/coolify-mcp/blob/main/LICENSE)
+[![License](https://img.shields.io/npm/l/%40danfarrdotcom%2Fcoolify-mcp.svg)](https://github.com/danfarrdotcom/coolify-mcp/blob/main/LICENSE)
 [![MCP Compatible](https://img.shields.io/badge/MCP-1.0.0-green.svg)](https://modelcontextprotocol.io)
 
 **The most complete MCP server for [Coolify](https://coolify.io) — giving AI assistants full control over your self-hosted infrastructure.**
@@ -49,7 +49,7 @@ Add to `~/Library/Application Support/Claude/claude_desktop_config.json`:
   "mcpServers": {
     "coolify": {
       "command": "npx",
-      "args": ["-y", "coolify-mcp"],
+      "args": ["-y", "@danfarrdotcom/coolify-mcp"],
       "env": {
         "COOLIFY_BASE_URL": "https://your-coolify.com",
         "COOLIFY_ACCESS_TOKEN": "your-token"
@@ -66,7 +66,7 @@ Add to `~/Library/Application Support/Claude/claude_desktop_config.json`:
   "mcpServers": {
     "coolify": {
       "command": "npx",
-      "args": ["-y", "coolify-mcp"],
+      "args": ["-y", "@danfarrdotcom/coolify-mcp"],
       "env": {
         "COOLIFY_INSTANCES": "prod=https://coolify.example.com|token1,staging=https://staging.coolify.example.com|token2"
       }
@@ -81,13 +81,13 @@ Add to `~/Library/Application Support/Claude/claude_desktop_config.json`:
 claude mcp add coolify \
   -e COOLIFY_BASE_URL="https://your-coolify.com" \
   -e COOLIFY_ACCESS_TOKEN="your-token" \
-  -- npx coolify-mcp@latest
+  -- npx @danfarrdotcom/coolify-mcp@latest
 ```
 
 ### Cursor / Windsurf
 
 ```bash
-env COOLIFY_ACCESS_TOKEN=your-token COOLIFY_BASE_URL=https://your-coolify.com npx -y coolify-mcp
+env COOLIFY_ACCESS_TOKEN=your-token COOLIFY_BASE_URL=https://your-coolify.com npx -y @danfarrdotcom/coolify-mcp
 ```
 
 ## Environment Variables
