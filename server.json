@@ -1,0 +1,26 @@
+{
+  "$schema": "https://raw.githubusercontent.com/modelcontextprotocol/registry/main/schema/server.schema.json",
+  "name": "@drfarr/coolify-mcp",
+  "description": "MCP server for Coolify — 75+ tools for managing self-hosted PaaS through AI assistants. Multi-instance, token-optimized, smart diagnostics.",
+  "repository": "https://github.com/drfarr/coolify-mcp",
+  "homepage": "https://github.com/drfarr/coolify-mcp",
+  "license": "MIT",
+  "runtime": "node",
+  "command": "npx",
+  "args": ["-y", "@drfarr/coolify-mcp"],
+  "env": {
+    "COOLIFY_BASE_URL": {
+      "description": "Your Coolify instance URL",
+      "required": false,
+      "default": "http://localhost:3000"
+    },
+    "COOLIFY_ACCESS_TOKEN": {
+      "description": "Your Coolify API token",
+      "required": true
+    },
+    "COOLIFY_INSTANCES": {
+      "description": "Multi-instance config: name=url|token,name2=url2|token2",
+      "required": false
+    }
+  }
+}

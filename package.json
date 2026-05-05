@@ -1,12 +1,17 @@
 {
   "name": "@drfarr/coolify-mcp",
   "version": "0.1.0",
-  "description": "MCP server for Coolify — multi-instance, streaming logs, MCP resources/prompts, full API coverage",
+  "description": "MCP server for Coolify — multi-instance, token-optimized, 75+ tools, smart diagnostics",
   "type": "module",
   "main": "dist/index.js",
   "bin": {
     "coolify-mcp": "dist/index.js"
   },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
   "scripts": {
     "build": "tsc",
     "dev": "tsx watch src/index.ts",
@@ -14,10 +19,33 @@
     "test": "vitest run",
     "lint": "eslint src/",
     "typecheck": "tsc --noEmit",
+    "prepublishOnly": "npm run build",
     "generate-types": "openapi-typescript https://raw.githubusercontent.com/coollabsio/coolify/v4.x/openapi.yaml -o src/generated/coolify-api.ts"
   },
-  "keywords": ["mcp", "coolify", "model-context-protocol", "self-hosted", "paas", "devops"],
+  "keywords": [
+    "mcp",
+    "coolify",
+    "model-context-protocol",
+    "self-hosted",
+    "paas",
+    "devops",
+    "ai",
+    "claude",
+    "infrastructure"
+  ],
+  "author": "drfarr",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/drfarr/coolify-mcp.git"
+  },
+  "homepage": "https://github.com/drfarr/coolify-mcp#readme",
+  "bugs": {
+    "url": "https://github.com/drfarr/coolify-mcp/issues"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
   "engines": {
     "node": ">=20"
   },
