@@ -1,9 +1,9 @@
 # coolify-mcp
 
-[![npm version](https://img.shields.io/npm/v/%40danfarrdotcom%2Fcoolify-mcp.svg)](https://www.npmjs.com/package/@danfarrdotcom/coolify-mcp)
-[![npm downloads](https://img.shields.io/npm/dm/%40danfarrdotcom%2Fcoolify-mcp.svg)](https://www.npmjs.com/package/@danfarrdotcom/coolify-mcp)
+[![npm version](https://img.shields.io/npm/v/%40danfarrdotcom%2Fcoolify-mcp)](https://www.npmjs.com/package/@danfarrdotcom/coolify-mcp)
+[![npm downloads](https://img.shields.io/npm/dm/%40danfarrdotcom%2Fcoolify-mcp)](https://www.npmjs.com/package/@danfarrdotcom/coolify-mcp)
 [![GitHub release](https://img.shields.io/github/v/release/danfarrdotcom/coolify-mcp?label=release)](https://github.com/danfarrdotcom/coolify-mcp/releases)
-[![License](https://img.shields.io/npm/l/%40danfarrdotcom%2Fcoolify-mcp.svg)](https://github.com/danfarrdotcom/coolify-mcp/blob/main/LICENSE)
+[![License](https://img.shields.io/github/license/danfarrdotcom/coolify-mcp)](https://github.com/danfarrdotcom/coolify-mcp/blob/main/LICENSE)
 [![MCP Compatible](https://img.shields.io/badge/MCP-1.0.0-green.svg)](https://modelcontextprotocol.io)
 
 **The most complete MCP server for [Coolify](https://coolify.io) — giving AI assistants full control over your self-hosted infrastructure.**
