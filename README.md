@@ -9,19 +9,25 @@ A better MCP server for [Coolify](https://coolify.io) — the open-source self-h
 - **Smart lookup** — find apps by name/domain, servers by name/IP — not just UUIDs
 - **Diagnostics** — `diagnose_app`, `diagnose_server`, `find_issues` aggregate multiple API calls
 - **HATEOAS responses** — `_actions` suggest logical next steps to AI assistants
+- **Cross-instance** — compare apps, clone env vars between staging and production
+- **Batch operations** — restart projects, bulk update env vars, emergency stop all
 - **MCP Resources** — subscribe to infrastructure state per instance
 - **MCP Prompts** — pre-built workflows: deploy, debug, rollback, env-diff, migrate, provision
 - **Secret masking** — env var values never leak in responses
-- **Full API coverage** — servers, projects, apps, databases, services, deployments, backups, keys, teams
+- **Full API coverage** — 75+ tools across servers, projects, apps, databases, services, deployments, backups, keys, teams, cloud providers
 - **OpenAPI-generated types** — auto-synced with Coolify releases
 
-## Quick start
+## Installation
 
-```bash
-npm install @drfarr/coolify-mcp
-```
+### Prerequisites
+
+- Node.js >= 20
+- A running Coolify instance (v4.x)
+- Coolify API access token (Settings → API → Generate Token)
 
 ### Claude Desktop
+
+Add to `~/Library/Application Support/Claude/claude_desktop_config.json`:
 
 ```json
 {
@@ -53,6 +59,29 @@ npm install @drfarr/coolify-mcp
   }
 }
 ```
+
+### Claude Code
+
+```bash
+claude mcp add coolify \
+  -e COOLIFY_BASE_URL="https://your-coolify.com" \
+  -e COOLIFY_ACCESS_TOKEN="your-token" \
+  -- npx @drfarr/coolify-mcp@latest
+```
+
+### Cursor / Windsurf
+
+```bash
+env COOLIFY_ACCESS_TOKEN=your-token COOLIFY_BASE_URL=https://your-coolify.com npx -y @drfarr/coolify-mcp
+```
+
+## Environment Variables
+
+| Variable | Required | Default | Description |
+|----------|----------|---------|-------------|
+| `COOLIFY_ACCESS_TOKEN` | Yes (single) | — | Your Coolify API token |
+| `COOLIFY_BASE_URL` | No | `http://localhost:3000` | Your Coolify instance URL |
+| `COOLIFY_INSTANCES` | Yes (multi) | — | Comma-separated `name=url\|token` pairs |
 
 ## Tools (75+)
 
@@ -99,21 +128,141 @@ npm install @drfarr/coolify-mcp
 | `migrate-app` | Migrate app between instances |
 | `provision-server` | Set up a new server from scratch |
 
-## Token-Optimized Responses
+## Architecture
 
-List endpoints return minimal summaries (uuid, name, status). Get endpoints return full details. This prevents context window exhaustion — responses are 90-99% smaller than raw API output.
+### Token-Optimized Responses
 
-Responses include `_actions` suggesting next steps:
+The Coolify API returns extremely verbose responses — a single application can contain 90+ fields. When listing 20+ applications, responses can exceed 200KB, quickly exhausting AI context windows.
+
+This server solves this with a two-tier approach:
+
+| Tool Type | Returns | Use Case |
+|-----------|---------|----------|
+| `list_*` | Summaries only (uuid, name, status) | Discovery, finding resources |
+| `get_*` | Full details for a single resource | Deep inspection, debugging |
+| `get_infrastructure_overview` | All resources summarized in one call | Start here |
+
+**Response size reduction:**
+
+| Endpoint | Raw API | This Server | Reduction |
+|----------|---------|-------------|-----------|
+| list_applications (20 apps) | ~170KB | ~4KB | **97%** |
+| list_services | ~367KB | ~1.2KB | **99%** |
+| list_deployments | ~1MB | ~4KB | **99.6%** |
+
+### HATEOAS-style Actions
+
+Every `get_*` response includes `_actions` suggesting logical next steps:
 
 ```json
 {
   "data": { "uuid": "abc123", "name": "my-app", "status": "running" },
   "_actions": [
     { "tool": "application_logs", "args": { "uuid": "abc123" }, "hint": "View logs" },
-    { "tool": "restart_application", "args": { "uuid": "abc123" }, "hint": "Restart" }
+    { "tool": "restart_application", "args": { "uuid": "abc123" }, "hint": "Restart" },
+    { "tool": "list_env_vars", "args": { "uuid": "abc123" }, "hint": "View env vars" },
+    { "tool": "list_deployments_for_app", "args": { "uuid": "abc123" }, "hint": "Deployment history" }
   ]
 }
 ```
+
+### Smart Lookup
+
+Diagnostic and get tools accept human-friendly identifiers:
+
+- **Applications**: UUID, name, or domain (e.g. `"my-app"`, `"example.com"`)
+- **Servers**: UUID, name, or IP (e.g. `"prod-server"`, `"192.168.1.100"`)
+- **Databases**: UUID or name
+- **Services**: UUID or name
+
+### Secret Masking
+
+Environment variable values are automatically masked in responses. Keys like `value`, `real_value`, `secret`, `token`, `password`, and `private_key` are replaced with `********`.
+
+### Multi-Instance
+
+Every tool accepts an optional `instance` parameter. When omitted, the default (first configured) instance is used. Cross-instance tools like `compare_apps` and `clone_env_vars` take explicit source/target instance parameters.
+
+## Usage Examples
+
+### Getting Started
+
+```
+"Give me an overview of my infrastructure"
+→ calls get_infrastructure_overview
+
+"Show me all my applications"
+→ calls list_applications
+
+"What's running on my prod server?"
+→ calls server_resources with smart lookup
+```
+
+### Debugging
+
+```
+"Diagnose my-app — it's returning 502s"
+→ calls diagnose_app (aggregates status, logs, deployments, env vars)
+
+"Find any issues in my infrastructure"
+→ calls find_issues (scans all resources for unhealthy state)
+
+"Show me the last 200 lines of logs for my-api"
+→ calls application_logs with lines=200
+```
+
+### Deployment
+
+```
+"Deploy my-app with a force rebuild"
+→ calls deploy with force=true
+
+"Cancel the current deployment"
+→ calls cancel_deployment
+
+"Redeploy everything in the web-project"
+→ calls redeploy_project
+```
+
+### Environment Variables
+
+```
+"Compare env vars between staging and production"
+→ calls compare_apps across instances
+
+"Copy all env vars from staging to production"
+→ calls clone_env_vars
+
+"Set DATABASE_URL across all my apps"
+→ calls bulk_env_update_across_apps
+```
+
+### Server Provisioning
+
+```
+"Provision a new Hetzner server in Nuremberg"
+→ calls hetzner_locations, hetzner_server_types, create_hetzner_server
+
+"Validate my new server connection"
+→ calls validate_server
+```
+
+### Batch Operations
+
+```
+"Restart all apps in the web project"
+→ calls restart_project_apps
+
+"Emergency stop everything"
+→ calls stop_all_apps (requires confirm=true)
+```
+
+## Recommended Workflow
+
+1. **Start with overview**: `get_infrastructure_overview` — see everything at once
+2. **Find your target**: `list_applications` / `list_servers` — get UUIDs
+3. **Dive deep**: `get_application(identifier)` — full details + suggested actions
+4. **Take action**: Follow `_actions` suggestions or use batch tools
 
 ## Development
 
@@ -123,6 +272,71 @@ cd coolify-mcp
 npm install
 npm run dev
 ```
+
+### Scripts
+
+| Command | Description |
+|---------|-------------|
+| `npm run dev` | Watch mode with tsx |
+| `npm run build` | Compile TypeScript |
+| `npm run typecheck` | Type-check without emitting |
+| `npm run generate-types` | Regenerate types from Coolify OpenAPI spec |
+| `npm test` | Run tests |
+
+### Project Structure
+
+```
+src/
+├── index.ts              # Entry point, server setup
+├── config/index.ts       # Multi-instance configuration
+├── client/index.ts       # HTTP client + secret masking
+├── tools/
+│   ├── index.ts          # Tool registration orchestrator
+│   ├── infrastructure.ts # list_instances, get_version, overview
+│   ├── servers.ts        # Server CRUD + validation
+│   ├── projects.ts       # Projects + environments
+│   ├── applications.ts   # App CRUD + env vars + lifecycle
+│   ├── databases.ts      # Database CRUD + backups
+│   ├── services.ts       # Service CRUD + lifecycle
+│   ├── deployments.ts    # Deploy, cancel, history
+│   ├── diagnostics.ts    # diagnose_app, diagnose_server, find_issues
+│   ├── batch.ts          # Bulk operations
+│   ├── cross-instance.ts # compare_apps, clone_env_vars
+│   ├── scheduled-tasks.ts
+│   ├── storages.ts
+│   ├── github-apps.ts
+│   ├── cloud-tokens.ts   # Hetzner/DO + provisioning
+│   ├── private-keys.ts
+│   └── teams.ts
+├── resources/index.ts    # MCP resource subscriptions
+├── prompts/index.ts      # MCP prompt workflows
+└── utils/
+    ├── summarize.ts      # Token-optimized response shaping
+    ├── resolve.ts        # Smart lookup (name/domain/IP → UUID)
+    └── actions.ts        # HATEOAS _actions builder
+```
+
+## Comparison with alternatives
+
+| Feature | @drfarr/coolify-mcp | @masonator/coolify-mcp |
+|---------|--------------------|-----------------------|
+| Tools | 75+ | 38 |
+| Multi-instance | ✅ | ❌ |
+| Cross-instance ops | ✅ | ❌ |
+| MCP Resources | ✅ | ❌ |
+| MCP Prompts | ✅ | ❌ |
+| Token optimization | ✅ | ✅ |
+| Smart lookup | ✅ | ✅ |
+| Diagnostics | ✅ | ✅ |
+| HATEOAS actions | ✅ | ✅ |
+| Batch operations | ✅ | ✅ |
+| Secret masking | ✅ | ❌ |
+| Hetzner provisioning | ✅ | ❌ |
+| Scheduled tasks | ✅ | ❌ |
+| Storage management | ✅ | ❌ |
+| Database backups | ✅ | ❌ |
+| Docs search | ❌ (planned) | ✅ |
+| OpenAPI types | ✅ | ❌ |
 
 ## License
 
