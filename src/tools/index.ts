@@ -9,6 +9,10 @@ import { registerDatabaseTools } from "./databases.js";
 import { registerServiceTools } from "./services.js";
 import { registerDeploymentTools } from "./deployments.js";
 import { registerDiagnosticTools } from "./diagnostics.js";
+import { registerBatchTools } from "./batch.js";
+import { registerScheduledTaskTools } from "./scheduled-tasks.js";
+import { registerStorageTools } from "./storages.js";
+import { registerGithubAppTools } from "./github-apps.js";
 import { registerPrivateKeyTools } from "./private-keys.js";
 import { registerTeamTools } from "./teams.js";
 
@@ -23,6 +27,10 @@ export function registerTools(server: McpServer, getClient: GetClient, config: C
   registerServiceTools(server, getClient);
   registerDeploymentTools(server, getClient);
   registerDiagnosticTools(server, getClient);
+  registerBatchTools(server, getClient);
+  registerScheduledTaskTools(server, getClient);
+  registerStorageTools(server, getClient);
+  registerGithubAppTools(server, getClient);
   registerPrivateKeyTools(server, getClient);
   registerTeamTools(server, getClient);
 }
