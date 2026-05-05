@@ -15,6 +15,8 @@ import { registerStorageTools } from "./storages.js";
 import { registerGithubAppTools } from "./github-apps.js";
 import { registerPrivateKeyTools } from "./private-keys.js";
 import { registerTeamTools } from "./teams.js";
+import { registerCloudTokenTools } from "./cloud-tokens.js";
+import { registerCrossInstanceTools } from "./cross-instance.js";
 
 type GetClient = (name?: string) => CoolifyClient;
 
@@ -33,4 +35,6 @@ export function registerTools(server: McpServer, getClient: GetClient, config: C
   registerGithubAppTools(server, getClient);
   registerPrivateKeyTools(server, getClient);
   registerTeamTools(server, getClient);
+  registerCloudTokenTools(server, getClient);
+  registerCrossInstanceTools(server, getClient, config);
 }

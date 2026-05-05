@@ -54,13 +54,14 @@ npm install @drfarr/coolify-mcp
 }
 ```
 
-## Tools (65+)
+## Tools (75+)
 
 | Category | Tools |
 |----------|-------|
 | **Infrastructure** | `list_instances`, `get_version`, `get_infrastructure_overview` |
 | **Diagnostics** | `diagnose_app`, `diagnose_server`, `find_issues` |
 | **Batch Ops** | `restart_project_apps`, `stop_all_apps`, `redeploy_project`, `bulk_env_update_across_apps` |
+| **Cross-Instance** | `compare_apps`, `clone_env_vars` |
 | **Servers** | `list_servers`, `get_server`, `create_server`, `update_server`, `delete_server`, `server_resources`, `server_domains`, `validate_server` |
 | **Projects** | `list_projects`, `get_project`, `create_project`, `update_project`, `delete_project` |
 | **Environments** | `list_environments`, `get_environment`, `create_environment`, `delete_environment` |
@@ -73,6 +74,7 @@ npm install @drfarr/coolify-mcp
 | **Scheduled Tasks** | `list_scheduled_tasks`, `create_scheduled_task`, `update_scheduled_task`, `delete_scheduled_task`, `list_scheduled_task_executions` |
 | **Storages** | `list_storages`, `create_storage`, `delete_storage` |
 | **GitHub Apps** | `list_github_apps`, `list_github_repos`, `list_github_branches`, `delete_github_app` |
+| **Cloud Providers** | `list_cloud_tokens`, `create_cloud_token`, `validate_cloud_token`, `delete_cloud_token`, `hetzner_locations`, `hetzner_server_types`, `hetzner_images`, `create_hetzner_server` |
 | **Private Keys** | `list_private_keys`, `get_private_key`, `create_private_key`, `delete_private_key` |
 | **Teams** | `list_teams`, `get_team`, `get_team_members`, `get_current_team`, `get_current_team_members` |
 
