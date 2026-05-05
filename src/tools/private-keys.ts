@@ -1,10 +1,10 @@
-import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
+import type { McpServerLike } from "../types/mcp.js";
 import type { CoolifyClient } from "../client/index.js";
 import { z } from "zod";
 
 type GetClient = (name?: string) => CoolifyClient;
 
-export function registerPrivateKeyTools(server: McpServer, getClient: GetClient) {
+export function registerPrivateKeyTools(server: McpServerLike, getClient: GetClient) {
   server.tool(
     "list_private_keys",
     "List all private keys",

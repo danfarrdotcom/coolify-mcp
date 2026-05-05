@@ -1,10 +1,10 @@
-import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
+import type { McpServerLike } from "../types/mcp.js";
 import type { CoolifyClient } from "../client/index.js";
 import { z } from "zod";
 
 type GetClient = (name?: string) => CoolifyClient;
 
-export function registerCloudTokenTools(server: McpServer, getClient: GetClient) {
+export function registerCloudTokenTools(server: McpServerLike, getClient: GetClient) {
   server.tool(
     "list_cloud_tokens",
     "List cloud provider tokens (Hetzner/DigitalOcean)",

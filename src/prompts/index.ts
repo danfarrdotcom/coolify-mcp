@@ -1,7 +1,7 @@
-import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
+import type { McpServerLike } from "../types/mcp.js";
 import { z } from "zod";
 
-export function registerPrompts(server: McpServer) {
+export function registerPrompts(server: McpServerLike) {
   server.prompt(
     "deploy-app",
     "Step-by-step workflow to deploy a new application",

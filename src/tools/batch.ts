@@ -1,10 +1,10 @@
-import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
+import type { McpServerLike } from "../types/mcp.js";
 import type { CoolifyClient } from "../client/index.js";
 import { z } from "zod";
 
 type GetClient = (name?: string) => CoolifyClient;
 
-export function registerBatchTools(server: McpServer, getClient: GetClient) {
+export function registerBatchTools(server: McpServerLike, getClient: GetClient) {
   server.tool(
     "restart_project_apps",
     "Restart all applications in a project",

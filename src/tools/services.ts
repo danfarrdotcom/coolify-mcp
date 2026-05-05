@@ -1,11 +1,11 @@
-import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
+import type { McpServerLike } from "../types/mcp.js";
 import type { CoolifyClient } from "../client/index.js";
 import { z } from "zod";
 import { summarize, resolveService, withActions, serviceActions } from "../utils/index.js";
 
 type GetClient = (name?: string) => CoolifyClient;
 
-export function registerServiceTools(server: McpServer, getClient: GetClient) {
+export function registerServiceTools(server: McpServerLike, getClient: GetClient) {
   server.tool(
     "list_services",
     "List all services (returns summary)",

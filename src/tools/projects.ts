@@ -1,11 +1,11 @@
-import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
+import type { McpServerLike } from "../types/mcp.js";
 import type { CoolifyClient } from "../client/index.js";
 import { z } from "zod";
 import { summarize } from "../utils/index.js";
 
 type GetClient = (name?: string) => CoolifyClient;
 
-export function registerProjectTools(server: McpServer, getClient: GetClient) {
+export function registerProjectTools(server: McpServerLike, getClient: GetClient) {
   server.tool(
     "list_projects",
     "List all projects (returns summary)",

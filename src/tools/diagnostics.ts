@@ -1,4 +1,4 @@
-import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
+import type { McpServerLike } from "../types/mcp.js";
 import type { CoolifyClient } from "../client/index.js";
 import { z } from "zod";
 import { resolveApp, resolveServer } from "../utils/index.js";
@@ -6,7 +6,7 @@ import { maskSecrets } from "../client/index.js";
 
 type GetClient = (name?: string) => CoolifyClient;
 
-export function registerDiagnosticTools(server: McpServer, getClient: GetClient) {
+export function registerDiagnosticTools(server: McpServerLike, getClient: GetClient) {
   server.tool(
     "diagnose_app",
     "Comprehensive app diagnostics: status, recent logs, recent deployments, env vars. Accepts UUID, name, or domain.",

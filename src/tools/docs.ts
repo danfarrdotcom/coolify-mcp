@@ -1,4 +1,4 @@
-import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
+import type { McpServerLike } from "../types/mcp.js";
 import { z } from "zod";
 
 const DOCS_BASE = "https://coolify.io/docs";
@@ -44,7 +44,7 @@ async function loadDocs(): Promise<DocChunk[]> {
   return docsCache;
 }
 
-export function registerDocsTools(server: McpServer) {
+export function registerDocsTools(server: McpServerLike) {
   server.tool(
     "search_docs",
     "Search Coolify documentation. Returns relevant docs with titles, URLs, and content snippets.",

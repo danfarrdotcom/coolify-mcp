@@ -1,11 +1,11 @@
-import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
+import type { McpServerLike } from "../types/mcp.js";
 import type { CoolifyClient } from "../client/index.js";
 import type { Config } from "../config/index.js";
 import { summarize } from "../utils/index.js";
 
 type GetClient = (name?: string) => CoolifyClient;
 
-export function registerResources(server: McpServer, getClient: GetClient, config: Config) {
+export function registerResources(server: McpServerLike, getClient: GetClient, config: Config) {
   // Infrastructure overview resource
   server.resource(
     "infrastructure",

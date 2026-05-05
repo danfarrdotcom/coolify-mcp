@@ -1,11 +1,11 @@
-import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
+import type { McpServerLike } from "../types/mcp.js";
 import type { CoolifyClient } from "../client/index.js";
 import { z } from "zod";
 import { summarize, resolveDatabase, withActions, dbActions } from "../utils/index.js";
 
 type GetClient = (name?: string) => CoolifyClient;
 
-export function registerDatabaseTools(server: McpServer, getClient: GetClient) {
+export function registerDatabaseTools(server: McpServerLike, getClient: GetClient) {
   server.tool(
     "list_databases",
     "List all databases (returns summary)",

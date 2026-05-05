@@ -1,11 +1,11 @@
-import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
+import type { McpServerLike } from "../types/mcp.js";
 import type { CoolifyClient } from "../client/index.js";
 import type { Config } from "../config/index.js";
 import { z } from "zod";
 
 type GetClient = (name?: string) => CoolifyClient;
 
-export function registerCrossInstanceTools(server: McpServer, getClient: GetClient, _config: Config) {
+export function registerCrossInstanceTools(server: McpServerLike, getClient: GetClient, _config: Config) {
   server.tool(
     "compare_apps",
     "Compare an application's config between two instances",

@@ -1,4 +1,4 @@
-import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
+import type { McpServerLike } from "../types/mcp.js";
 import type { CoolifyClient } from "../client/index.js";
 import type { Config } from "../config/index.js";
 import { registerInfrastructureTools } from "./infrastructure.js";
@@ -21,7 +21,7 @@ import { registerDocsTools } from "./docs.js";
 
 type GetClient = (name?: string) => CoolifyClient;
 
-export function registerTools(server: McpServer, getClient: GetClient, config: Config) {
+export function registerTools(server: McpServerLike, getClient: GetClient, config: Config) {
   registerInfrastructureTools(server, getClient, config);
   registerServerTools(server, getClient);
   registerProjectTools(server, getClient);
