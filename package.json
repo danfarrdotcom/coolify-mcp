@@ -1,5 +1,5 @@
 {
-  "name": "@drfarr/coolify-mcp",
+  "name": "coolify-mcp",
   "version": "0.1.0",
   "description": "MCP server for Coolify — multi-instance, token-optimized, 75+ tools, smart diagnostics",
   "type": "module",
