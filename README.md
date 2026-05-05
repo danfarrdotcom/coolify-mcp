@@ -1,6 +1,21 @@
-# @drfarr/coolify-mcp
+# coolify-mcp
 
-A better MCP server for [Coolify](https://coolify.io) — the open-source self-hosted PaaS.
+[![npm version](https://img.shields.io/npm/v/coolify-mcp.svg)](https://www.npmjs.com/package/coolify-mcp)
+[![npm downloads](https://img.shields.io/npm/dm/coolify-mcp.svg)](https://www.npmjs.com/package/coolify-mcp)
+[![GitHub release](https://img.shields.io/github/v/release/danfarrdotcom/coolify-mcp?label=release)](https://github.com/danfarrdotcom/coolify-mcp/releases)
+[![License](https://img.shields.io/npm/l/coolify-mcp.svg)](https://github.com/danfarrdotcom/coolify-mcp/blob/main/LICENSE)
+[![MCP Compatible](https://img.shields.io/badge/MCP-1.0.0-green.svg)](https://modelcontextprotocol.io)
+
+**The most complete MCP server for [Coolify](https://coolify.io) — giving AI assistants full control over your self-hosted infrastructure.**
+
+## Why coolify-mcp?
+
+Managing self-hosted infrastructure through AI requires **context-aware tools** that understand how you actually work:
+
+- **Stop wasting tokens on verbose API responses** — Coolify's API returns 90+ fields per resource. Our token-optimized design reduces response sizes by 90-99%, keeping your AI's context window free for what matters.
+- **Work across environments seamlessly** — manage staging + production from one session, compare apps, clone environment variables between instances.
+- **AI-native workflows** — not just API wrappers. Diagnostic tools aggregate multiple calls, `_actions` suggest logical next steps, and smart lookup finds resources by name or domain (not just UUIDs).
+- **75+ tools, zero gaps** — complete Coolify v4 API coverage including Hetzner provisioning, scheduled tasks, batch operations, and team management.
 
 ## What's different
 
@@ -34,7 +49,7 @@ Add to `~/Library/Application Support/Claude/claude_desktop_config.json`:
   "mcpServers": {
     "coolify": {
       "command": "npx",
-      "args": ["-y", "@drfarr/coolify-mcp"],
+      "args": ["-y", "coolify-mcp"],
       "env": {
         "COOLIFY_BASE_URL": "https://your-coolify.com",
         "COOLIFY_ACCESS_TOKEN": "your-token"
@@ -51,7 +66,7 @@ Add to `~/Library/Application Support/Claude/claude_desktop_config.json`:
   "mcpServers": {
     "coolify": {
       "command": "npx",
-      "args": ["-y", "@drfarr/coolify-mcp"],
+      "args": ["-y", "coolify-mcp"],
       "env": {
         "COOLIFY_INSTANCES": "prod=https://coolify.example.com|token1,staging=https://staging.coolify.example.com|token2"
       }
@@ -66,13 +81,13 @@ Add to `~/Library/Application Support/Claude/claude_desktop_config.json`:
 claude mcp add coolify \
   -e COOLIFY_BASE_URL="https://your-coolify.com" \
   -e COOLIFY_ACCESS_TOKEN="your-token" \
-  -- npx @drfarr/coolify-mcp@latest
+  -- npx coolify-mcp@latest
 ```
 
 ### Cursor / Windsurf
 
 ```bash
-env COOLIFY_ACCESS_TOKEN=your-token COOLIFY_BASE_URL=https://your-coolify.com npx -y @drfarr/coolify-mcp
+env COOLIFY_ACCESS_TOKEN=your-token COOLIFY_BASE_URL=https://your-coolify.com npx -y coolify-mcp
 ```
 
 ## Environment Variables
@@ -318,7 +333,7 @@ src/
 
 ## Comparison with alternatives
 
-| Feature | @drfarr/coolify-mcp | @masonator/coolify-mcp |
+| Feature | coolify-mcp | @masonator/coolify-mcp |
 |---------|--------------------|-----------------------|
 | Tools | 75+ | 38 |
 | Multi-instance | ✅ | ❌ |
