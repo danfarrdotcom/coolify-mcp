@@ -1,0 +1,35 @@
+{
+  "name": "@drfarr/coolify-mcp",
+  "version": "0.1.0",
+  "description": "MCP server for Coolify — multi-instance, streaming logs, MCP resources/prompts, full API coverage",
+  "type": "module",
+  "main": "dist/index.js",
+  "bin": {
+    "coolify-mcp": "dist/index.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsx watch src/index.ts",
+    "start": "node dist/index.js",
+    "test": "vitest run",
+    "lint": "eslint src/",
+    "typecheck": "tsc --noEmit",
+    "generate-types": "openapi-typescript https://raw.githubusercontent.com/coollabsio/coolify/v4.x/openapi.yaml -o src/generated/coolify-api.ts"
+  },
+  "keywords": ["mcp", "coolify", "model-context-protocol", "self-hosted", "paas", "devops"],
+  "license": "MIT",
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "1.12.1",
+    "zod": "3.24.4"
+  },
+  "devDependencies": {
+    "@types/node": "22.15.3",
+    "openapi-typescript": "7.6.1",
+    "tsx": "4.19.4",
+    "typescript": "5.8.3",
+    "vitest": "3.1.3"
+  }
+}
