@@ -9,8 +9,6 @@ export const metadata: Metadata = {
   description: "Documentation for the Coolify MCP server.",
 };
 
-export const dynamic = "force-dynamic";
-
 export default async function RootLayout({
   children,
 }: Readonly<{
