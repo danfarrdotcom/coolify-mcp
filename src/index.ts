@@ -25,7 +25,7 @@ function getClient(name?: string): CoolifyClient {
 
 const server = new McpServer({
   name: "@drfarr/coolify-mcp",
-  version: "0.1.0",
+  version: "0.1.1",
 });
 
 registerTools(server, getClient, config);

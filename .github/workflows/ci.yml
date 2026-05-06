@@ -52,11 +52,16 @@ jobs:
             echo "release_exists=false" >> "$GITHUB_OUTPUT"
           fi
 
-          if npm view "$PACKAGE_NAME@$VERSION" version >/dev/null 2>&1; then
-            echo "npm_published=true" >> "$GITHUB_OUTPUT"
-          else
-            echo "npm_published=false" >> "$GITHUB_OUTPUT"
-          fi
+          npm_published=false
+          for attempt in 1 2 3; do
+            if npm view "$PACKAGE_NAME@$VERSION" version --registry=https://registry.npmjs.org >/dev/null 2>&1; then
+              npm_published=true
+              break
+            fi
+            echo "npm view check attempt $attempt did not find $PACKAGE_NAME@$VERSION"
+            sleep 2
+          done
+          echo "npm_published=$npm_published" >> "$GITHUB_OUTPUT"
       - run: npm ci
         if: steps.release_meta.outputs.release_exists == 'false' || steps.release_meta.outputs.npm_published == 'false'
       - run: npm test
@@ -77,7 +82,16 @@ jobs:
             LICENSE
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - run: npm publish --access public
+      - run: |
+          PACKAGE_NAME="${{ steps.release_meta.outputs.package_name }}"
+          VERSION="${{ steps.release_meta.outputs.version }}"
+
+          if npm view "$PACKAGE_NAME@$VERSION" version --registry=https://registry.npmjs.org >/dev/null 2>&1; then
+            echo "$PACKAGE_NAME@$VERSION is already published; skipping npm publish."
+            exit 0
+          fi
+
+          npm publish --access public
         if: steps.release_meta.outputs.npm_published == 'false'
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
